@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+use Alex19pov31\BitrixCli\BackupCommand;
+use Alex19pov31\BitrixCli\MysqlDumpCommand;
+use Alex19pov31\BitrixCli\NewComponentCommand;
+use Alex19pov31\BitrixCli\NewComponentTemplateCommand;
+use Alex19pov31\BitrixCli\NewModuleCommand;
+use Alex19pov31\BitrixCli\NewProjectCommand;
+use Alex19pov31\BitrixCli\NewSiteTemplateCommand;
+use Alex19pov31\BitrixCli\Start1CImportCommand;
+use Alex19pov31\BitrixCli\TranslateCommand;
+use Symfony\Component\Console\Application;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$app = new Application('Bitrix cli', '0.0.1');
+$app->add(new NewComponentCommand);
+$app->add(new NewComponentTemplateCommand);
+$app->add(new NewModuleCommand);
+$app->add(new NewSiteTemplateCommand);
+$app->add(new TranslateCommand);
+$app->add(new BackupCommand);
+$app->add(new MysqlDumpCommand);
+$app->add(new NewProjectCommand);
+$app->add(new Start1CImportCommand);
+
+$app->run();

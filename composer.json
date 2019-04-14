@@ -1,0 +1,24 @@
+{
+    "name": "alex19pov31/bitrix-cli",
+    "description": "Generate bitrix modules, components, templates",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nesterov Alexander",
+            "email": "alex19pov31@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Alex19pov31\\BitrixCli\\": "src/"
+        }
+    },
+    "bin": [
+        "bxcli"
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/console": "^4.2",
+        "stichoza/google-translate-php": "^4.0"
+    }
+}
