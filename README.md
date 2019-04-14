@@ -3,7 +3,7 @@
 Командная строка для bitrix
 
 ```bash
-    composer require -g alex19pov31/bitrix-cli
+    composer global require alex19pov31/bitrix-cli
 ```
 
 ### Вывод списка команд
