@@ -25,7 +25,7 @@ class NewComponentCommand extends Command
         $to = Helper::getCurrentPath('/' . $name);
         Helper::copyFolder($from, $to);
         Helper::compileTemplate($to . '/class.php', [
-            '#CLASS_NAME#' => ucfirst($name) . 'Component',
+            '#CLASS_NAME#' => Helper::strToCamelCase($name) . 'Component',
         ]);
     }
 }

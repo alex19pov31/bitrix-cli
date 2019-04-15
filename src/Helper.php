@@ -117,7 +117,7 @@ class Helper
         return realpath('./') . $subDir;
     }
 
-    public static function strToCamelCase(string $str, array $delimiter = ['-', '_', ' ']): string
+    public static function strToCamelCase(string $str, array $delimiter = ['-', '_', '.', ' ']): string
     {
         foreach ($delimiter as $d) {
             $str = static::toCamelCase($str, $d);
