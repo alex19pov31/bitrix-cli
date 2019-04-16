@@ -44,31 +44,42 @@ class BackupCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $rootPath = $input->getArgument('root_path');
+        $rootGlobalPath = realpath($input->getArgument('root_path'));
         $bitrixPath = $input->getArgument('bitrix_path');
+        $bitrixGlobalPath = realpath($bitrixPath);
         $archiveName = $input->getArgument('archive_name');
-        $connectionName = $input->getArgument('bitrix_path');
+        $connectionName = $input->getArgument('connection_name');
+
+        if (!is_dir($bitrixPath)) {
+            $output->writeln('Bitrix core not found!');
+            return;
+        }
 
         $config = require $bitrixPath . '/.settings.php';
         $dbConf = $config['connections']['value'][$connectionName];
 
-        $commandDump = 'mysqldump -h ' . $dbConf['host'] .
+        $output->writeln('Start dump database...');
+        $commandDump = 'docker exec -i bitrix_mysql mysqldump -h ' . $dbConf['host'] .
             ' -u ' . $dbConf['login'] .
             ' -p' . $dbConf['password'] . ' ' .
             $dbConf['database'] .
             ' > ' . $dbConf['database'] . '.sql';
-
         exec($commandDump);
-        //$output->writeln('')
+        $output->writeln('Dump is finished!');
+
+        $output->writeln('Creating archive');
         $commandArchive = 'tar -czvpf ' . $archiveName . ' ' .
             $rootPath .
             ' ' . $dbConf['database'] . '.sql' .
-            ' --exclude=' . $bitrixPath . '/cache/*' .
-            ' --exclude=' . $bitrixPath . '/managed_cache/*' .
-            ' --exclude=' . $bitrixPath . '/stack_cache/*';
+            ' --exclude=' . $bitrixGlobalPath . '/cache/*' .
+            ' --exclude=' . $bitrixGlobalPath . '/managed_cache/*' .
+            ' --exclude=' . $bitrixGlobalPath . '/stack_cache/*' .
+            ' --exclude=' . $bitrixGlobalPath . '/backup/*' .
+            ' --exclude=' . $rootGlobalPath . '/upload/resize_cache/*' .
+            ' --exclude=' . $rootGlobalPath . '/*.tar.gz';
 
         exec($commandArchive);
-        //$output->writeln('')
         exec('rm -rf ' . $dbConf['database'] . '.sql');
-        //$output->writeln('')
+        $output->writeln('Backup is complete!');
     }
 }
