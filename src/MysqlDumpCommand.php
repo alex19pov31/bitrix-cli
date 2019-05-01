@@ -45,10 +45,10 @@ class MysqlDumpCommand extends Command
         $output->writeln('Start dump database...');
         $commandDump = 'mysqldump -h ' . $dbConf['host'] .
             ' -u ' . $dbConf['login'] .
-            ' -p' . $dbConf['password'] . ' ' .
+            ' --password="' . $dbConf['password'] . '" ' .
             $dbConf['database'] .
-            ' >' . $dbConf['database'] . '.sql';
-
+            ' > ' . $dbConf['database'] . '.sql';
+        $output->writeln($commandDump);
         exec($commandDump);
         $output->writeln('Dump is finished!');
     }

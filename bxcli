@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 use Alex19pov31\BitrixCli\BackupCommand;
+use Alex19pov31\BitrixCli\InitTranslateCommand;
 use Alex19pov31\BitrixCli\MysqlDumpCommand;
 use Alex19pov31\BitrixCli\NewComponentCommand;
 use Alex19pov31\BitrixCli\NewComponentTemplateCommand;
@@ -23,6 +24,7 @@ $app->add(new NewComponentTemplateCommand);
 $app->add(new NewModuleCommand);
 $app->add(new NewSiteTemplateCommand);
 $app->add(new TranslateCommand);
+$app->add(new InitTranslateCommand);
 $app->add(new BackupCommand);
 $app->add(new MysqlDumpCommand);
 $app->add(new NewProjectCommand);

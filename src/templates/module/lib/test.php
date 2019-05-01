@@ -1,8 +1,8 @@
 <?php
 
-namespace #CLASS_NAME#;
+namespace #NAMESPACE#;
 
-use #CLASS_NAME#\D7\DataTable;
+use #NAMESPACE#\DataTable;
 
 class Test
 {

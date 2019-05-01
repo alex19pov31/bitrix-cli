@@ -16,6 +16,12 @@ class BackupCommand extends Command
             ->setAliases(['bkp'])
             ->setDescription('create backup bitrix project')
             ->addArgument(
+                'archive_name',
+                InputArgument::OPTIONAL,
+                'Name archive',
+                '../project.tar.gz'
+            )
+            ->addArgument(
                 'root_path',
                 InputArgument::OPTIONAL,
                 'Root path project',
@@ -26,12 +32,6 @@ class BackupCommand extends Command
                 InputArgument::OPTIONAL,
                 'Path to bitrix folder',
                 './bitrix'
-            )
-            ->addArgument(
-                'archive_name',
-                InputArgument::OPTIONAL,
-                'Name archive',
-                '../project.tar.gz'
             )
             ->addArgument(
                 'connection_name',
@@ -59,15 +59,15 @@ class BackupCommand extends Command
         $dbConf = $config['connections']['value'][$connectionName];
 
         $output->writeln('Start dump database...');
-        $commandDump = 'docker exec -i bitrix_mysql mysqldump -h ' . $dbConf['host'] .
+        $commandDump = 'mysqldump -h ' . $dbConf['host'] .
             ' -u ' . $dbConf['login'] .
-            ' -p' . $dbConf['password'] . ' ' .
+            ' --password="' . $dbConf['password'] . '" ' .
             $dbConf['database'] .
             ' > ' . $dbConf['database'] . '.sql';
         exec($commandDump);
         $output->writeln('Dump is finished!');
 
-        $output->writeln('Creating archive');
+        $output->writeln('Creating archive...');
         $commandArchive = 'tar -czvpf ' . $archiveName . ' ' .
             $rootPath .
             ' ' . $dbConf['database'] . '.sql' .

@@ -1,5 +1,5 @@
 <?php
-namespace #CLASS_NAME#;
+namespace #NAMESPACE#;
 
 use Bitrix\Main\Entity;
 use Bitrix\Main\Localization\Loc;

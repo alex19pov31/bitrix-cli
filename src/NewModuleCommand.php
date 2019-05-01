@@ -25,10 +25,12 @@ class NewModuleCommand extends Command
         $to = Helper::getCurrentPath('/' . $name);
         Helper::copyFolder($from, $to);
 
-        $moduleClass = Helper::strToCamelCase($name);
+        $moduleClass = str_replace(['-', '.', ' '], '_', $name);
+        $namespace = str_replace(['-', '.', ' '], "\\", $name);
         Helper::compileFolder($to, [
             '#CLASS_NAME#' => $moduleClass,
             '#MODULE_NAME#' => $name,
+            '#NAMESPACE#' => $namespace,
             '#VERSION#' => '0.0.1',
             '#DATE_CREATE#' => date('Y-m-d H:i:s'),
         ]);
