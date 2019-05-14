@@ -12,6 +12,7 @@ use Alex19pov31\BitrixCli\NewSiteTemplateCommand;
 use Alex19pov31\BitrixCli\Start1CImportCommand;
 use Alex19pov31\BitrixCli\TranslateCommand;
 use Symfony\Component\Console\Application;
+use Alex19pov31\BitrixCli\NewSectionCommand;
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
@@ -24,6 +25,7 @@ $app->add(new NewComponentCommand);
 $app->add(new NewVueComponentCommand);
 $app->add(new NewComponentTemplateCommand);
 $app->add(new NewModuleCommand);
+$app->add(new NewSectionCommand);
 $app->add(new NewSiteTemplateCommand);
 $app->add(new TranslateCommand);
 $app->add(new InitTranslateCommand);
