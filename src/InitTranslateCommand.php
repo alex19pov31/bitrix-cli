@@ -29,22 +29,37 @@ class InitTranslateCommand extends Command
 
         $dir_iterator = new \RecursiveDirectoryIterator("./");
         $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
-// could use CHILD_FIRST if you so wish
 
+        $countMessage = 0;
         foreach ($iterator as $file) {
-            if (strpos($file, '/lang/') !== false || strpos($file, '.vue') === false) {
+            if (strpos($file, '/lang/') !== false || strpos($file, '.php') === false && strpos($file, '.vue') === false) {
                 continue;
             }
 
-            $data = file_get_contents($file);
-            $data = preg_replace("/<script[\w\W]*?<\/script>/", "", $data);
+            $originalData = file_get_contents($file);
+            $data = preg_replace("/<script[\w\W]*?<\/script>/", "", $originalData);
             $data = preg_replace("/\<\?[\w\W]*?\?\>/", "", $data);
-            preg_match_all("/\>([^\<\>]*?)\</", $data, $match);
-            echo $file, "\n";
-            var_dump($match);
+            preg_match_all("/\>([^\<\>]{2,})\</", $data, $match);
+
+            $result = array_filter($match[1], function ($item) {
+                return !empty(trim($item));
+            });
+
+            $result = array_values($result);
+            $strData = "<?php\n";
+            foreach ($result as $i => $text) {
+                $key = 'message_' . $i;
+                $strData .= "\$MESS['" . $key . "'] = \"" . str_replace('"', '\"', trim($text)) . "\";\n";
+                $originalData = str_replace(trim($text), "<?= Loc::getMessage('" . $key . "') ?>", $originalData);
+            }
+
+            $filePath = './lang/ru/' . $file->getFilename();
+            Helper::mkdirSafe(dirname($filePath), true);
+            file_put_contents($filePath, $strData);
+            file_put_contents($file, $originalData);
+            $countMessage += count($result);
         }
 
-        //$files = glob('./*.php');
-        //var_dump($files);
+        $output->writeln($countMessage . ' messages created');
     }
 }
