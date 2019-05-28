@@ -45,13 +45,31 @@ class TranslateCommand extends Command
     {
         $data = [];
         $files = array_keys($originData);
+        $newData = str_replace(
+            [
+                '| ||',
+                '|| |',
+                '| | |',
+                '~ ~~',
+                '~~ ~',
+                '~ ~ ~',
+            ],
+            [
+                '|||',
+                '|||',
+                '|||',
+                '~~~',
+                '~~~',
+                '~~~',
+            ],
+            $newData
+        );
         $list = explode('~~~', $newData);
 
         foreach ($list as $i => $el) {
             $file = $files[$i];
             $keys = array_keys($originData[$file]);
             $values = explode('|||', $el);
-
             if (empty($keys)) {
                 $data[$file] = [];
                 continue;

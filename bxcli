@@ -13,6 +13,7 @@ use Alex19pov31\BitrixCli\Start1CImportCommand;
 use Alex19pov31\BitrixCli\TranslateCommand;
 use Symfony\Component\Console\Application;
 use Alex19pov31\BitrixCli\NewSectionCommand;
+use Alex19pov31\BitrixCli\NewPageTemplateCommand;
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
@@ -33,5 +34,6 @@ $app->add(new BackupCommand);
 $app->add(new MysqlDumpCommand);
 $app->add(new NewProjectCommand);
 $app->add(new Start1CImportCommand);
+$app->add(new NewPageTemplateCommand);
 
 $app->run();
