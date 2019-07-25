@@ -46,7 +46,7 @@ class BackupCommand extends Command
         $rootPath = $input->getArgument('root_path');
         $rootGlobalPath = realpath($input->getArgument('root_path'));
         $bitrixPath = $input->getArgument('bitrix_path');
-        $bitrixGlobalPath = realpath($bitrixPath);
+        //$bitrixGlobalPath = realpath($bitrixPath);
         $archiveName = $input->getArgument('archive_name');
         $connectionName = $input->getArgument('connection_name');
 
@@ -63,23 +63,22 @@ class BackupCommand extends Command
             ' -u ' . $dbConf['login'] .
             ' --password="' . $dbConf['password'] . '" ' .
             $dbConf['database'] .
-            ' > ' . $dbConf['database'] . '.sql';
+            ' > ' . $rootGlobalPath . '/db.sql';
         exec($commandDump);
         $output->writeln('Dump is finished!');
 
         $output->writeln('Creating archive...');
         $commandArchive = 'tar -czvpf ' . $archiveName . ' ' .
             $rootPath .
-            ' ' . $dbConf['database'] . '.sql' .
-            ' --exclude=' . $bitrixGlobalPath . '/cache/*' .
-            ' --exclude=' . $bitrixGlobalPath . '/managed_cache/*' .
-            ' --exclude=' . $bitrixGlobalPath . '/stack_cache/*' .
-            ' --exclude=' . $bitrixGlobalPath . '/backup/*' .
-            ' --exclude=' . $rootGlobalPath . '/upload/resize_cache/*' .
-            ' --exclude=' . $rootGlobalPath . '/*.tar.gz';
+            ' --exclude=' . $rootPath . '/bitrix/cache/*' .
+            ' --exclude=' . $rootPath . '/bitrix/managed_cache/*' .
+            ' --exclude=' . $rootPath . '/bitrix/stack_cache/*' .
+            ' --exclude=' . $rootPath . '/bitrix/backup/*' .
+            ' --exclude=' . $rootPath . '/upload/resize_cache/*' .
+            ' --exclude=' . $rootPath . '/*.tar.gz';
 
         exec($commandArchive);
-        exec('rm -rf ' . $dbConf['database'] . '.sql');
+        exec('rm -rf ' . $rootGlobalPath . '/db.sql');
         $output->writeln('Backup is complete!');
     }
 }
