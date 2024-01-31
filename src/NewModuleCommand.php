@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewModuleCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:module')
@@ -18,7 +18,7 @@ class NewModuleCommand extends Command
             ->addArgument('name', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $from = Helper::getTemplatePath('/module');
@@ -34,5 +34,6 @@ class NewModuleCommand extends Command
             '#VERSION#' => '0.0.1',
             '#DATE_CREATE#' => date('Y-m-d H:i:s'),
         ]);
+        return 0;
     }
 }

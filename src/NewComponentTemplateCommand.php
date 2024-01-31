@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewComponentTemplateCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:component-template')
@@ -18,11 +18,12 @@ class NewComponentTemplateCommand extends Command
             ->addArgument('name', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $from = Helper::getTemplatePath('/component-template');
         $to = Helper::getCurrentPath('/' . $name);
         Helper::copyFolder($from, $to);
+        return 0;
     }
 }

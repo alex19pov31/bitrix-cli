@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewPageTemplateCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:page-template')
@@ -24,7 +24,7 @@ class NewPageTemplateCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pageTemplatename = $input->getArgument('pageTemplatename').'.php';
         $dataTemplate = file_get_contents(Helper::getTemplatePath('/page_templates/standart.php'));
@@ -48,5 +48,6 @@ class NewPageTemplateCommand extends Command
         Helper::mkdirSafe(dirname($filteConfig), true);
         file_put_contents($filteConfig, $strData);
         file_put_contents($fileTemplate, $dataTemplate);
+        return 0;
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewSectionCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:section')
@@ -17,11 +17,12 @@ class NewSectionCommand extends Command
             ->addArgument('name', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $from = Helper::getTemplatePath('/section');
         $to = Helper::getCurrentPath('/' . $name);
         Helper::copyFolder($from, $to);
+        return 0;
     }
 }

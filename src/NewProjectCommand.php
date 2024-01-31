@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewProjectCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:project')
@@ -24,7 +24,7 @@ class NewProjectCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $baseURL = 'http://www.1c-bitrix.ru/download/';
         $distrList = [
@@ -45,5 +45,6 @@ class NewProjectCommand extends Command
         $command .= 'rm -rf ' . str_replace('portal/', '', $distrList[$distr]);
 
         exec($command);
+        return 0;
     }
 }

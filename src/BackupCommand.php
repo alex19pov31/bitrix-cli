@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class BackupCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('server:backup')
@@ -41,7 +41,7 @@ class BackupCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $rootPath = $input->getArgument('root_path');
         $rootGlobalPath = realpath($input->getArgument('root_path'));
@@ -52,7 +52,7 @@ class BackupCommand extends Command
 
         if (!is_dir($bitrixPath)) {
             $output->writeln('Bitrix core not found!');
-            return;
+            return 0;
         }
 
         $config = require $bitrixPath . '/.settings.php';
@@ -80,5 +80,6 @@ class BackupCommand extends Command
         exec($commandArchive);
         exec('rm -rf ' . $rootGlobalPath . '/db.sql');
         $output->writeln('Backup is complete!');
+        return 0;
     }
 }

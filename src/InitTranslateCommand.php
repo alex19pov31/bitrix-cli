@@ -2,6 +2,8 @@
 
 namespace Alex19pov31\BitrixCli;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InitTranslateCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('helper:init-translate')
@@ -23,16 +25,19 @@ class InitTranslateCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sourceLang = $input->getArgument('lang');
 
-        $dir_iterator = new \RecursiveDirectoryIterator("./");
-        $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
+        $dir_iterator = new RecursiveDirectoryIterator("./");
+        $iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
         $countMessage = 0;
         foreach ($iterator as $file) {
-            if (strpos($file, '/lang/') !== false || strpos($file, '.php') === false && strpos($file, '.vue') === false) {
+            if (str_contains($file, '/lang/') ||
+                !str_contains($file, '.php') &&
+                !str_contains($file, '.vue')
+            ) {
                 continue;
             }
 
@@ -61,5 +66,6 @@ class InitTranslateCommand extends Command
         }
 
         $output->writeln($countMessage . ' messages created');
+        return 0;
     }
 }

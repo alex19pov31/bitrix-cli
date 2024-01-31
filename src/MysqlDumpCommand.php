@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MysqlDumpCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('server:db-dump')
@@ -29,14 +29,14 @@ class MysqlDumpCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $bitrixPath = $input->getArgument('bitrix_path');
         $connectionName = $input->getArgument('connection_name');
 
         if (!is_dir($bitrixPath)) {
             $output->writeln('Bitrix core not found!');
-            return;
+            return 0;
         }
 
         $config = require $bitrixPath . '/.settings.php';
@@ -51,5 +51,6 @@ class MysqlDumpCommand extends Command
         $output->writeln($commandDump);
         exec($commandDump);
         $output->writeln('Dump is finished!');
+        return 0;
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TranslateCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('helper:translate')
@@ -92,7 +92,7 @@ class TranslateCommand extends Command
         file_put_contents($filePath, $strData);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sourceLang = $input->getArgument('source_lang');
         $targetLang = $input->getArgument('target_lang');
@@ -104,7 +104,7 @@ class TranslateCommand extends Command
         $langMesaages = Helper::getLangMessages('./lang/' . $sourceLang);
         if (empty($langMesaages)) {
             $output->writeln('Messages not found');
-            return;
+            return 0;
         }
 
         $tr = new GoogleTranslate($gTargtLang, $sourceLang);
@@ -119,5 +119,6 @@ class TranslateCommand extends Command
             $this->saveFile($filePath, $data);
         }
         $output->writeln($countMessage . ' messages translated');
+        return 0;
     }
 }

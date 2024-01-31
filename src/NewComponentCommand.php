@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewComponentCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:component')
@@ -18,7 +18,7 @@ class NewComponentCommand extends Command
             ->addArgument('name', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $from = Helper::getTemplatePath('/component');
@@ -27,5 +27,6 @@ class NewComponentCommand extends Command
         Helper::compileTemplate($to . '/class.php', [
             '#CLASS_NAME#' => Helper::strToCamelCase($name) . 'Component',
         ]);
+        return 0;
     }
 }

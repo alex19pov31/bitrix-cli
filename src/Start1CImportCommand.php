@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Start1CImportCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('helper:1c-import')
@@ -18,8 +18,9 @@ class Start1CImportCommand extends Command
             ->addArgument('archive', InputArgument::OPTIONAL);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $input->setInteractive(true);
+        return 0;
     }
 }

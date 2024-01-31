@@ -5,7 +5,7 @@ namespace Alex19pov31\BitrixCli;
 class Helper
 {
 
-    public static function copyFolder($fromDir, $toDir, $upd = true, $force = true)
+    public static function copyFolder($fromDir, $toDir, $upd = true, $force = true): void
     {
         if (is_dir($fromDir)) {
             $toDir = static::mkdirSafe($toDir, $force);
@@ -39,7 +39,7 @@ class Helper
         return (mkdir($dir, 0777, true)) ? $dir : false;
     }
 
-    public static function copySafe($f1, $f2, $upd)
+    public static function copySafe($f1, $f2, $upd): bool
     {
         $time1 = filemtime($f1);
         if (file_exists($f2)) {

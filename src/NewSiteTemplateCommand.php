@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewSiteTemplateCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:site-template')
@@ -18,7 +18,7 @@ class NewSiteTemplateCommand extends Command
             ->addArgument('name', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $from = Helper::getTemplatePath('/site-template');
@@ -27,5 +27,6 @@ class NewSiteTemplateCommand extends Command
         Helper::compileTemplate($to . '/description.php', [
             '#TEMPLATE_NAME#' => $name,
         ]);
+        return 0;
     }
 }

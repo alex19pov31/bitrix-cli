@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NewVueComponentCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('new:vue-component')
@@ -19,7 +19,7 @@ class NewVueComponentCommand extends Command
             ->addArgument('name', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $from = Helper::getTemplatePath('/vue-component');
@@ -32,5 +32,6 @@ class NewVueComponentCommand extends Command
         Helper::compileTemplate($to . '/templates/.default/template.php', [
             '#VUE_COMPONENT_NAME#' => $vueComponentName,
         ]);
+        return 0;
     }
 }

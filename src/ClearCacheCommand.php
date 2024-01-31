@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ClearCacheCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('helper:clear-cache')
@@ -24,13 +24,13 @@ class ClearCacheCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $bitrixPath = $input->getArgument('bitrix_path');
         $prologFile = $bitrixPath . '/modules/main/include/prolog_before.php';
         if (!is_file($prologFile)) {
             $output->writeln('Bitrix core not found!');
-            return;
+            return 0;
         }
 
         require_once $prologFile;
@@ -38,5 +38,6 @@ class ClearCacheCommand extends Command
         $output->writeln('Start cleaning...');
         Cache::createInstance()->clearCache(true);
         $output->writeln('Cache cleared');
+        return 1;
     }
 }
